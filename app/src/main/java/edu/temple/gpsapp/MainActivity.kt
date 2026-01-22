@@ -14,6 +14,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -23,6 +26,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     lateinit var mapView : MapView
     private var googleMap: GoogleMap? = null
+
+    private var marker: Marker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +43,28 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         locationListener = object: LocationListener {
             override fun onLocationChanged(location: Location) {
 
+                googleMap?.run{
+                    val latlng = LatLng(location.latitude, location.longitude)
+
+                    if (marker == null) {
+                        marker = this.addMarker(
+                            MarkerOptions()
+                                .position(latlng)
+                                .title("Me")
+                        )
+                    } else {
+                        marker?.position = latlng
+                    }
+                }
+
+
                 previousLocation?.run {
                     val distance = this.distanceTo(location)
                     val timeDif = (location.time - this.time) / 1000.0
-                    Log.d("Time dif", timeDif.toString())
+                    //Log.d("Time dif", timeDif.toString())
                     if (distance > 1) {
                         val calcSpeed = distance / timeDif
-                        Log.d("Speed", "Reported: ${location.speed} - Calculated: ${calcSpeed}")
+                        //Log.d("Speed", "Reported: ${location.speed} - Calculated: ${calcSpeed}")
                     }
                 }
 

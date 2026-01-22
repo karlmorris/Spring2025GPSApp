@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         applicationId = "edu.temple.gpsapp"
-        minSdk = 35
-        targetSdk = 36
+        minSdk = 34
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
