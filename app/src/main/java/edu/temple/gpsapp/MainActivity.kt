@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -45,6 +46,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 googleMap?.run{
                     val latlng = LatLng(location.latitude, location.longitude)
+
+                    googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 17f))
 
                     if (marker == null) {
                         marker = this.addMarker(
